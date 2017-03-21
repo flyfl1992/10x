@@ -144,6 +144,18 @@ dim(fData(gbm))
 dim(join)
 # [1] 32738    15
 
+
+
+
+
+
+
+
+###############
+# Scratch below
+###############
+
+
 #to examine the code for loading in the databases:
 load_cellranger_matrix_from_files #no brackets
 
