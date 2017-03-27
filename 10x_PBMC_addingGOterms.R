@@ -2,28 +2,14 @@
 ## Attempting to add GO terms to 10X genomics PBMC data
 #####################
 
-#CellRangerR tutorial from this link:
-# https://support.10xgenomics.com/single-cell/software/pipelines/latest/rkit
-#for CellRangerR installation:
-source("http://s3-us-west-2.amazonaws.com/10x.files/code/rkit-install-1.1.0.R")
+# From non-cran sources
+library(cellrangerRkit) # https://support.10xgenomics.com/single-cell/software/pipelines/latest/rkit
+library(Seurat) # http://satijalab.org/seurat/
 
-#Seurat tutorial from this link:
-# http://satijalab.org/seurat/pbmc-tutorial.html
-#for Seurat install: 
-#install_url("https://github.com/satijalab/seurat/releases/download/v1.4.0/Seurat_1.4.0.9.tgz", binary = TRUE)
-
-library(cellrangerRkit)
+# From cran
 library(devtools)
-library(Seurat)
 library(tidyverse)
 library(Matrix)
-
-#check package version
-packageVersion("cellrangerRkit")
-# '1.1.0'
-
-#replace the path below with the path to your working direcory:
-setwd("path/to/your/repo")
 
 ##############################
 # Reading data into CellRangerR:
