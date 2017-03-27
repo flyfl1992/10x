@@ -1,6 +1,6 @@
-# 10x genomics 2700 PBMC GO term exploration
+# 10x genomics 2,700 PBMC GO term exploration
 
-Data obtained from [https://support.10xgenomics.com/single-cell/software/pipelines/latest/rkit]
+Data obtained from https://support.10xgenomics.com/single-cell/software/pipelines/latest/rkit
 
 To execute this code, download repo and edit file path in `setwd()` within `10x_PBMC_addingGOterms.R` to reflect the location of your repo.
 
