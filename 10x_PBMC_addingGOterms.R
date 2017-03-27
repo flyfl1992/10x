@@ -49,7 +49,9 @@ gbm <- load_cellranger_matrix(pipestance_path) #gbm has 2700 cells and 32,738 ge
 # reading data into Seurat:
 ###########################
 
-pbmc.data <- Read10X("~/Documents/Dunn_Lab/10x/outs/filtered_gene_bc_matrices/hg19/")
+#relative filepath for matrices
+filepath <- "./outs/filtered_gene_bc_matrices/hg19/"
+pbmc.data <- Read10X(filepath)
 
 #In Seurat, the following command is used to read raw data into S4 class
 #pbmc <- new("seurat", raw.data = pbmc.data)
