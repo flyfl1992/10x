@@ -2,11 +2,13 @@
 ## Attempting to add GO terms to 10X genomics PBMC data
 #####################
 
+#CellRangerR tutorial from this link:
+# https://support.10xgenomics.com/single-cell/software/pipelines/latest/rkit
+#for CellRangerR installation:
+source("http://s3-us-west-2.amazonaws.com/10x.files/code/rkit-install-1.1.0.R")
 
 #Seurat tutorial from this link:
 # http://satijalab.org/seurat/pbmc-tutorial.html
-
-source("http://s3-us-west-2.amazonaws.com/10x.files/code/rkit-install-1.1.0.R")
 #for Seurat install: 
 #install_url("https://github.com/satijalab/seurat/releases/download/v1.4.0/Seurat_1.4.0.9.tgz", binary = TRUE)
 
@@ -16,26 +18,37 @@ library(Seurat)
 library(tidyverse)
 library(Matrix)
 
+#check package version
 packageVersion("cellrangerRkit")
+# '1.1.0'
 
-setwd("~/Documents/Dunn_Lab/10x/")
+#replace the path below with the path to your working direcory:
+setwd("path/to/your/repo")
+
+##############################
+# Reading data into CellRangerR:
+##############################
+
+#specifying file path
+pipestance_path <- getwd()
 
 ## Download data (if you haven't already):
-# #reading data into CellRangerR:
-pipestance_path <- "/Users/Zack/Documents/Dunn_Lab/10x"
-setwd(pipestance_path)
-download_sample(sample_name="pbmc3k",sample_dir=pipestance_path, 
-                host="https://s3-us-west-2.amazonaws.com/10x.files/samples/cell/") 
+#   (Note that this is not necessary if you have cloned the repo)
+# download_sample(sample_name="pbmc3k",sample_dir=pipestance_path, 
+#                 host="https://s3-us-west-2.amazonaws.com/10x.files/samples/cell/") 
 
 #The following code loads data into CellRangerR:
 gbm <- load_cellranger_matrix(pipestance_path) #gbm has 2700 cells and 32,738 genes
 
-# #accessing data within gbm
+# #Accessing data within gbm
 # exprs(gbm) # expression matrix
 # fData(gbm) # data frame of genes
 # pData(gbm) # data frame of cell barcodes
 
-#reading data into Seurat:
+###########################
+# reading data into Seurat:
+###########################
+
 pbmc.data <- Read10X("~/Documents/Dunn_Lab/10x/outs/filtered_gene_bc_matrices/hg19/")
 
 #In Seurat, the following command is used to read raw data into S4 class
@@ -45,10 +58,10 @@ pbmc.data <- Read10X("~/Documents/Dunn_Lab/10x/outs/filtered_gene_bc_matrices/hg
 # Loading GO Terms
 #################
 
-#import list of gene IDs from 10x data
-gene_names2 <- read_delim("genes.tsv", delim = "\t",col_names = c("Ensembl","ID"))
-
-write.csv(gene_names2[,1],file = "genewrite",row.names=FALSE) #write Ensembl IDs to file
+#import list of gene IDs from 10x data (Note that this is not necessary if you have cloned the repo)
+# gene_names2 <- read_delim("genes.tsv", delim = "\t",col_names = c("Ensembl","ID"))
+# 
+# write.csv(gene_names2[,1],file = "genewrite",row.names=FALSE) #write Ensembl IDs to file
 
 #use Retrieve/ID mapping to convert from Ensembl to UniprotKB
 # http://www.uniprot.org/uploadlists/ # paste in list of genes, or upload (may have to remove quotation marks first)
@@ -62,7 +75,7 @@ summary(uniprot)
 names(uniprot)[1:2] = c("id","isomap")
 head(uniprot)
 #remove duplicated Ensembl IDs
-#(note: course way to do this, should investigate why some IDs are duplicated)
+#(note: coarse way to do this, should investigate why some IDs are duplicated)
 uniprot[! duplicated(uniprot$id), ] -> uniprot.noDup
 head(uniprot.noDup)
 
