@@ -8,6 +8,12 @@ This repository...
 
 ## Getting set up
 
+
+### Obtaining the respository
+
+Download or clone the repsoitory from https://github.com/zrlewis/10x
+
+
 ### Installing dependencies
 
 Install the following dependencies:
@@ -15,15 +21,12 @@ Install the following dependencies:
 - `CellrangerR`, follow the installation instructions at https://support.10xgenomics.com/single-cell/software/pipelines/latest/rkit . Tested with version 1.1.0.
 - `seurat`, run the following in R: `devtools::install_url("https://github.com/satijalab/seurat/releases/download/v1.4.0/Seurat_1.4.0.9.tgz", binary = TRUE)`
 
-### Obtaining the data
 
-All data for the analyses are in the repo.
+### Obtaining the data
 
 Data were obtained from https://support.10xgenomics.com/single-cell/software/pipelines/latest/rkit
 
-### Obtaining the respository
-
-Download or clone the repsoitory from https://github.com/zrlewis/10x
+Before running analyses, you will need to generate a local gene ontology map by running `go_prep.R`.
 
 
 ## Running the analyses

@@ -7,7 +7,6 @@ library(cellrangerRkit) # https://support.10xgenomics.com/single-cell/software/p
 library(Seurat) # http://satijalab.org/seurat/
 
 # From cran
-library(devtools)
 library(tidyverse)
 library(Matrix)
 
@@ -72,8 +71,7 @@ head(uniprot.noDup)
 ##################
 
 #relational database from the genes database to the uniprot.noDup
-join<- left_join(fData(gbm),uniprot.noDup, by = NULL)
-join<- as_tibble(join)
+gene_annotations <- left_join( fData(gbm), uniprot.noDup, by = "id") %>% as_tibble()
 #the problem is that the CellrangerR package doesn't support addition of metadata
 #  need to instead use an non-sparse matrix 
 
@@ -85,12 +83,12 @@ names(denseMatrix)
 
 #instead tried to join this database to the raw reads parsed by Seurat
 pbmc.tibble <- as_tibble(denseMatrix)
-join_reads <- left_join(join, pbmc.tibble, by = NULL) #throwing error, even though there should be a shared Gene ID column
+join_reads <- left_join(gene_annotations, pbmc.tibble, by = NULL) #throwing error, even though there should be a shared Gene ID column
 #using as.matrix(pbmc.data) seems to elminate the gene IDs present in pbmc.data
 
 head(pbmc.tibble)
 head(pbmc.data)
-head(join)
+head(gene_annotations)
 head(denseMatrix)
 
 #In Seurat there is a function to add metadata, perhaps could use that
@@ -101,7 +99,7 @@ pbmc <- new("seurat", raw.data = pbmc.data)
 #pbmc <- AddMetaData(pbmc, percent.mito, "percent.mito")
 
 #can potentially use the AddMetaData function from Seurat to add columns
-pbmc.join <- AddMetaData(pbmc, join)
+pbmc.join <- AddMetaData(pbmc, gene_annotations)
 #no errors, but
 names(pbmc.join)
 #NULL
