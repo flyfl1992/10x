@@ -3,8 +3,15 @@
 This repository...
 
 ## Contents
+- `go_prep.R` prepares an expanded GO term library with ancestor GO terms populated for each child term.
 
-`10x_PBMC_dataAnalysis_Seurat.R` and `10x_PBMC_dataAnalysis_CellRangerR.R` reflect example scripts from tutorials for Seurat and CellRangerR packages, respectively. 
+- `10x_PBMC_addingGOterms.R` loads data into CellRangerR and subsets by a specified GO term.
+
+- `10x_PBMC_dataAnalysis_Seurat.R` and `10x_PBMC_dataAnalysis_CellRangerR.R` reflect example scripts from tutorials for Seurat and CellRangerR packages, respectively. They are not to be run.
+
+- `GO_Search.R` will return a vector of ENSEMBL IDs associated with a GO term. 
+This function is now included in `10x_PBMC_addingGOterms.R`. 
+
 
 ## Getting set up
 
@@ -27,8 +34,6 @@ Install the following dependencies:
 Data were obtained from https://support.10xgenomics.com/single-cell/software/pipelines/latest/rkit
 
 Before running analyses, you will need to generate a local gene ontology map by running `go_prep.R`.
-
-`GO_Search.R` will return a vector of ENSEMBL IDs associated with a GO term.
 
 ## Running the analyses
 

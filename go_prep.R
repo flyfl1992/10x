@@ -15,7 +15,7 @@ bp = as.list(GOBPANCESTOR)
 mf = as.list(GOMFANCESTOR)
 cc = as.list(GOCCANCESTOR)
 
-#' Expands a GO into a fector that includes itself and all parents
+#' Expands a GO into a vector that includes itself and all parents
 #' 
 #' @param Character indicating a go term, eg "GO:0003712"
 #' @return A vector of go terms as characters
