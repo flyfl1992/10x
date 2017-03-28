@@ -92,11 +92,24 @@ cell_composition(cluster_result$Cluster,
 
 
 
-#subsetting data
-subset_by_cell <- gbm[,c("AAACATACAACCAC-1", "AAACATTGAGCTAC-1")]
-subset_by_gene_id <- gbm["ENSG00000167286",]
-subset_by_gene_symbol <- gbm[which(fData(gbm)$symbol == 'CD3D'),]
-subset_by_cell_and_gene <- gbm["ENSG00000167286", c("AAACATACAACCAC-1", "AAACATTGAGCTAC-1")]
+#Subsetting data
+# examples of how to subset:
+# subset_by_cell <- gbm[,c("AAACATACAACCAC-1", "AAACATTGAGCTAC-1")]
+# subset_by_gene_id <- gbm["ENSG00000167286",]
+# subset_by_gene_symbol <- gbm[which(fData(gbm)$symbol == 'CD3D'),]
+# subset_by_cell_and_gene <- gbm["ENSG00000167286", c("AAACATACAACCAC-1", "AAACATTGAGCTAC-1")]
+
+
+#Subset by GO_Term
+# Need to make sure that the ENSEMBL ids from GO_Search are actually in the gbm matrix
+# `transcription_factor_vector` represents the results of the `GO_Search.R` results
+transcription_factor_vector2 = transcription_factor_vector[ transcription_factor_vector %in% fData(gbm)$id ]
+#then subset by these GO terms
+subset_by_GO_term <-gbm[c(transcription_factor_vector2),]
+
+
+
+
 
 
 #examining expression data over cells for a certain gene
