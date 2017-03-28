@@ -87,10 +87,16 @@ head(expression_subset)
 ###
 # Next step is to re-run sequencing analysis using subsetted data...
 
+#analyzing gene expression signatures:
+# Instead of using raw UMI counts for downstream differential gene analysis, 
+# Filter out unexpressed genes, then normalize the UMI counts for the barcodes
+# This log-transformed gene-barcode matrix can be used for analysis.
+# (Raw UMI counts are not recommended for downstream analysis)
 
-
-
-
+use_genes <- get_nonzero_genes(subset_by_GO_term)
+gbm_bcnorm <- normalize_barcode_sums_to_median(subset_by_GO_term[use_genes,])
+gbm_log <- log_gene_bc_matrix(gbm_bcnorm,base=10)
+print(dim(gbm_log))
 
 # ###########################
 # # reading data into Seurat:
