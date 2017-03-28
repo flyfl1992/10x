@@ -64,32 +64,34 @@ head(uniprot)
 #remove duplicated Ensembl IDs
 #(note: coarse way to do this, should investigate why some IDs are duplicated)
 uniprot[! duplicated(uniprot$id), ] -> uniprot.noDup
-head(uniprot.noDup)
+head( uniprot.noDup )
 
 ##################
 ## Relating GO terms to PBMC Data
 ##################
 
 #relational database from the genes database to the uniprot.noDup
-gene_annotations <- left_join( fData(gbm), uniprot.noDup, by = "id") %>% as_tibble()
+gene_annotations <- 
+	left_join( fData(gbm), uniprot.noDup, by = "id") %>% 
+	as_tibble()
+
 #the problem is that the CellrangerR package doesn't support addition of metadata
 #  need to instead use an non-sparse matrix 
 
 #I think that as.matrix parses the Seurat pbmc.data
-denseMatrix <-as.matrix(pbmc.data)
+denseMatrix <- as.matrix( pbmc.data )
 #however,
-names(denseMatrix)
+names( denseMatrix )
 # NULL
 
 #instead tried to join this database to the raw reads parsed by Seurat
-pbmc.tibble <- as_tibble(denseMatrix)
-join_reads <- left_join(gene_annotations, pbmc.tibble, by = NULL) #throwing error, even though there should be a shared Gene ID column
+pbmc.tibble <- as_tibble( denseMatrix )
+join_reads <- left_join( gene_annotations, pbmc.tibble, by = NULL ) #throwing error, even though there should be a shared Gene ID column
 #using as.matrix(pbmc.data) seems to elminate the gene IDs present in pbmc.data
 
 head(pbmc.tibble)
 head(pbmc.data)
 head(gene_annotations)
-head(denseMatrix)
 
 #In Seurat there is a function to add metadata, perhaps could use that
 #AddMetaData adds columns to object@data.info, and is a great place to stash QC stats
