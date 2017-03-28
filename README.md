@@ -28,6 +28,7 @@ Data were obtained from https://support.10xgenomics.com/single-cell/software/pip
 
 Before running analyses, you will need to generate a local gene ontology map by running `go_prep.R`.
 
+`GO_Search.R` will return a vector of ENSEMBL IDs associated with a GO term.
 
 ## Running the analyses
 
