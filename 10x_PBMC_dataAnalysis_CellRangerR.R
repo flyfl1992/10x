@@ -108,100 +108,13 @@ transcription_factor_vector2 = transcription_factor_vector[ transcription_factor
 subset_by_GO_term <-gbm[c(transcription_factor_vector2),]
 
 
+###
+# Next step is to re-run sequencing analysis using subsetted data...
 
 
-
-
-#examining expression data over cells for a certain gene
-exprs(gbm[6,400:500])
-fData(gbm[1,1])
-
-#################
-# Loading GO Terms
-#################
-
-library(tidyverse)
-#import list of gene IDs from 10x data
-gene_names2 <- read_delim("genes.tsv", delim = "\t",col_names = c("Ensembl","ID"))
-
-write.csv(gene_names2[,1],file = "genewrite",row.names=FALSE) #write Ensembl IDs to file
-
-#use Retrieve/ID mapping to convert from Ensembl to UniprotKB
-# http://www.uniprot.org/uploadlists/ # paste in list of genes, or upload (may have to remove quotation marks first)
-#  filter by "Reviewed / Swiss-Prot"
-#   download results as a tab separated file
-#    rename downloaded file to "uniprot.tab"
-
-uniprot<-read_delim("uniprot.tab", delim = "\t")
-summary(uniprot)
-#rename first two columns
-names(uniprot)[1:2] = c("id","isomap")
-head(uniprot)
-#remove duplicated Ensembl IDs
-#(note: course way to do this, should investigate why some IDs are duplicated)
-uniprot[! duplicated(uniprot$id), ] -> uniprot.noDup
-head(uniprot.noDup)
-
-#relational database from the genes database to the uniprot.noDup
-join<- left_join(fData(gbm),uniprot.noDup, by = NULL)
-
-#what now? Can I output this as a tsv, then import with pipestance path?
-write_tsv(x = join, path ="joined.tsv")
-# no, the load_cellranger_matrix_from_files() doesn't like the new genes.tsv file
-# error message claims that its dimensions don't match the matrix file, although ...
-
-dim(exprs(gbm))
-# [1] 32738  2700
-dim(fData(gbm))
-# [1] 32738     2
-dim(join)
-# [1] 32738    15
-
-
-
-
-
-
-
-
-###############
-# Scratch below
-###############
-
-
-#to examine the code for loading in the databases:
-load_cellranger_matrix_from_files #no brackets
-
-readMM # appears to be function for reading matrix
-
-#perhaps could use the Seurat Read10X() function to read in matrix.
-
-#example coerce sparse matrix to data.frame, not exactly correct
-
-summ <- summary(pbmc.data)
-pbmc.dataframe <- data.frame(Origin      = rownames(mat)[summ$i],
-                             Destination = colnames(mat)[summ$j],
-                             Weight      = summ$x)
-
-#I think that as.matrix parses it okay. pbmc.data from Seurat.
-
-denseMatrix <-as.matrix(pbmc.data)
-dim(denseMatrix)
-
-denseGBM <- as.data.frame(fData(gbm))
-
-############
-# general code for elbow plots using sum of squared error plot
-
-wss <- (nrow(mydata)-1)*sum(apply(mydata,2,var))
-for (i in 2:15) wss[i] <- sum(kmeans(mydata,
-                                     centers=i)$withinss)
-plot(1:15, wss, type="b", xlab="Number of Clusters",
-     ylab="Within groups sum of squares") 
-
-
-
-
-
+# #examining expression data over cells for a certain gene
+# exprs(gbm[6,400:500])
+# fData(gbm[1,1])
+# 
 
 
